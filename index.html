@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <title>Document</title>
+    <style>
+        
+      body {
+        background-image: url("./bg9.png");
+        background-repeat: repeat;
+        background-size: 70%;
+      }
+      .book {
+        background-color: #e5e5e5;
+        margin: center;
+        margin: auto;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        width: 60%;
+        padding: 10px;
+        height: 180px;
+        border: 1px solid;
+      }
+      .book {
+        display: flex;
+        flex-direction: row;
+      }
+      img {
+        max-height: 100%;
+        max-width: 100%;
+        margin-right: 10px;
+      }
+      #result {
+        display: grid;
+        grid-template-columns: auto auto;
+      }
+      #myBtn {
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: red;
+        color: white;
+        cursor: pointer;
+        padding: 15px;
+        border-radius: 4px;
+        font-weight: bolder;
+        border-radius: 50%;
+        width:4.5%
+      }
+
+      #myBtn:hover {
+        background-color: #555;
+      }
+      .book:hover {
+        transform: scale(1.05);
+        font-weight: bold;
+        box-shadow: 0px 3px 17px 2px rgba(137, 146, 139, 1);
+      }
+      .filtername {
+        margin-bottom: -20px;
+        font-weight: bold;
+        margin-left: 10px;
+      }
+      .filters {
+        margin: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      input {
+        font-size: large;
+        background-color: #e5e5e5;
+        border-radius: 4px;
+        border: 1px solid;
+      }
+      h5 {
+        font-size: larger;
+      }
+      .app {
+        background-color: #99582a;
+        color: white;
+        padding: 10px;
+        margin-top: 0px;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+        padding-left: 85px;
+        margin-bottom: 5%;
+      }
+      .btn {
+        font-size: larger;
+        margin-right: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="app">LIBRARY MANAGEMENT APP</h1>
+    <h3 class="filtername">Filter by:</h3>
+    <div class="filters">
+      <h1>
+        <input
+          class="inputs"
+          type="text"
+          onchange="calltit()"
+          id="val"
+          placeholder="Title"
+        />
+      </h1>
+      <h1>
+        <input
+          class="inputs"
+          type="text"
+          onchange="callaut()"
+          id="val1"
+          placeholder="Author"
+        />
+      </h1>
+      <h1>
+        <input
+          class="inputs"
+          type="text"
+          onchange="callsub()"
+          id="val2"
+          placeholder="Subject"
+        />
+      </h1>
+      <h1>
+        <input
+          class="inputs"
+          type="text"
+          onchange="calldate()"
+          id="val3"
+          placeholder="Date"
+        />
+      </h1>
+    </div>
+
+    <div id="result"></div>
+
+    <div class="container">
+      <div id="pagination-wrapper"></div>
+    </div>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">&#x2191</button>
+  </body>
+  <script>
+    arr = [
+      {
+        Title: "Rich Dad Poor Dad",
+        Author: "Robert",
+        Subject: "Religion",
+        Date: "28-11-2014",
+        img: "img1.jpg",
+      },
+      {
+        Title: "Girl in troble",
+        Author: "Stacy Clafin",
+        Subject: "Thriller",
+        Date: "28-11-2015",
+        img: "img2.jpg",
+      },
+      {
+        Title: "Wolverine",
+        Author: "Dawne",
+        Subject: "Action",
+        Date: "11-06-2017",
+        img: "img3.jpg",
+      },
+      {
+        Title: "Avengers",
+        Author: "Dawne",
+        Subject: "Action",
+        Date: "28-11-2010",
+        img: "img4.jpg",
+      },
+      {
+        Title: "Spider Man",
+        Author: "Dawne",
+        Subject: "Action",
+        Date: "11-08-2012",
+        img: "img5.jpg",
+      },
+      {
+        Title: "Psycho",
+        Author: "Robert Bloch",
+        Subject: "Psycho Thriller",
+        Date: "28-11-2019",
+        img: "img7.jpg",
+      },
+      {
+        Title: "Sudha Murthy",
+        Author: "Sudha Murthy",
+        Subject: "Story",
+        Date: "11-06-2021",
+        img: "img8.jpg",
+      },
+      {
+        Title: "Ruskin Bond",
+        Author: "Murthy",
+        Subject: "Story",
+        Date: "28-11-2022",
+        img: "img9.jpg",
+      },
+      {
+        Title: "In your own backyard",
+        Author: "Rachel",
+        Subject: "Story",
+        Date: "11-06-2022",
+        img: "img11.jpg",
+      },
+      {
+        Title: "Histories 4ans",
+        Author: "Michael",
+        Subject: "History",
+        Date: "28-11-2022",
+        img: "img12.jpg",
+      },
+      {
+        Title: "poor dad rich dad",
+        Author: "kyosaki",
+        Subject: "social",
+        Date: "11-06-2022",
+        img: "img13.jpg",
+      },
+      {
+        Title: "Theory of Everything",
+        Author: "shakeshere",
+        Subject: "physics",
+        Date: "28-11-2022",
+        img: "img14.jpg",
+      },
+      {
+        Title: "poor dad rich dad",
+        Author: "kyosaki",
+        Subject: "social",
+        Date: "11-06-2022",
+        img: "img15.jpg",
+      },
+      {
+        Title: "Theory of Everything",
+        Author: "shakeshere",
+        Subject: "physics",
+        Date: "28-11-2022",
+        img: "img16.jpg",
+      },
+      {
+        Title: "poor dad rich dad",
+        Author: "kyosaki",
+        Subject: "social",
+        Date: "11-06-2022",
+        img: "img17.jpg",
+      },
+      {
+        Title: "Theory of Everything",
+        Author: "shakeshere",
+        Subject: "physics",
+        Date: "28-11-2022",
+        img: "img18.jpg",
+      },
+      {
+        Title: "poor dad rich dad",
+        Author: "kyosaki",
+        Subject: "social",
+        Date: "11-06-2022",
+        img: "img19.jpg",
+      },
+      {
+        Title: "Theory of Everything",
+        Author: "razak",
+        Subject: "physics",
+        Date: "28-11-2022",
+        img: "img20.jpg",
+      },
+      {
+        Title: "poor dad rich dad",
+        Author: "kyosaki",
+        Subject: "social",
+        Date: "11-06-2022",
+        img: "img21.jpg",
+      },
+      {
+        Title: "poor dad rich dad",
+        Author: "kyosaki",
+        Subject: "social",
+        Date: "11-06-2022",
+        img: "img22.jpg",
+      },
+      {
+        Title: "Balaji",
+        Author: "shakeshere",
+        Subject: "physics",
+        Date: "28-11-2022",
+        img: "img3.jpg",
+      },
+      {
+        Title: "poor dad rich dad",
+        Author: "kyosaki",
+        Subject: "social",
+        Date: "11-06-2022",
+        img: "img5.jpg",
+      },
+      {
+        Title: "Theory of Everything",
+        Author: "shakeshere",
+        Subject: "physics",
+        Date: "28-11-2022",
+        img: "img8.jpg",
+      },
+      {
+        Title: "poor dad rich dad",
+        Author: "kyosaki",
+        Subject: "social",
+        Date: "11-06-2022",
+        img: "img13.jpg",
+      },
+      {
+        Title: "Theory of Everything",
+        Author: "shakeshere",
+        Subject: "physics",
+        Date: "28-11-2022",
+        img: "img20.jpg",
+      },
+      {
+        Title: "poor dad rich dad",
+        Author: "kyosaki",
+        Subject: "social",
+        Date: "11-06-2022",
+        img: "img12.jpg",
+      },
+      {
+        Title: "Theory of Everything",
+        Author: "shakeshere",
+        Subject: "physics",
+        Date: "28-11-2022",
+        img: "img18.jpg",
+      },
+      {
+        Title: "poor dad rich dad",
+        Author: "kyosaki",
+        Subject: "social",
+        Date: "11-06-2022",
+        img: "img5.jpg",
+      },
+    ];
+
+    var state = {
+      querySet: arr,
+
+      page: 1,
+      rows: 10,
+      window: 5,
+    };
+
+    buildList();
+
+    function pagination(querySet, page, rows) {
+      var trimStart = (page - 1) * rows;
+      var trimEnd = trimStart + rows;
+
+      var trimmedData = querySet.slice(trimStart, trimEnd);
+
+      var pages = Math.round(querySet.length / rows);
+
+      return {
+        querySet: trimmedData,
+        pages: pages,
+      };
+    }
+
+    function pageButtons(pages) {
+      var wrapper = document.getElementById("pagination-wrapper");
+
+      wrapper.innerHTML = ``;
+      console.log("Pages:", pages);
+
+      var maxLeft = state.page - Math.floor(state.window / 2);
+      var maxRight = state.page + Math.floor(state.window / 2);
+
+      if (maxLeft < 1) {
+        maxLeft = 1;
+        maxRight = state.window;
+      }
+
+      if (maxRight > pages) {
+        maxLeft = pages - (state.window - 1);
+
+        if (maxLeft < 1) {
+          maxLeft = 1;
+        }
+        maxRight = pages;
+      }
+
+      for (var page = maxLeft; page <= maxRight; page++) {
+        wrapper.innerHTML += `<button value=${page}  class="page btn btn-sm btn-info">${page}</button>`;
+      }
+
+      if (state.page != 1) {
+        wrapper.innerHTML =
+          `<button value=${1} class="page btn btn-sm btn-info">&#171; First</button>` +
+          wrapper.innerHTML;
+      }
+
+      if (state.page != pages) {
+        wrapper.innerHTML += `<button value=${pages} class="page btn btn-sm btn-info">Last &#187;</button>`;
+      }
+
+      $(".page").on("click", function () {
+        $("#result").empty();
+
+        state.page = Number($(this).val());
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+
+        buildList();
+      });
+    }
+    function calltit() {
+      $("#result").empty();
+      var query = document.getElementById("val").value;
+      console.log("callhere:", query);
+      arr2 = arr.filter((item) => {
+        return item["Title"].toLowerCase().includes(query.toLowerCase());
+      });
+      state = {
+        querySet: arr2,
+
+        page: 1,
+        rows: 10,
+        window: 5,
+      };
+
+      buildList();
+      console.log(arr2);
+    }
+    function callaut() {
+      $("#result").empty();
+      var query1 = document.getElementById("val1").value;
+      console.log("callhere:", query1);
+      arr2 = arr.filter((item) => {
+        return item["Author"].toLowerCase().includes(query1.toLowerCase());
+      });
+      state = {
+        querySet: arr2,
+
+        page: 1,
+        rows: 10,
+        window: 5,
+      };
+
+      buildList();
+      console.log(arr2);
+    }
+    function callsub() {
+      $("#result").empty();
+      var query2 = document.getElementById("val2").value;
+      console.log("callhere:", query2);
+      arr2 = arr.filter((item) => {
+        return item["Subject"].toLowerCase().includes(query2.toLowerCase());
+      });
+      state = {
+        querySet: arr2,
+
+        page: 1,
+        rows: 10,
+        window: 5,
+      };
+
+      buildList();
+      console.log(arr2);
+    }
+    function calldate() {
+      $("#result").empty();
+      var query3 = document.getElementById("val3").value;
+      console.log("callhere:", query3);
+      arr2 = arr.filter((item) => {
+        return item["Date"].toLowerCase().includes(query3.toLowerCase());
+      });
+      state = {
+        querySet: arr2,
+
+        page: 1,
+        rows: 10,
+        window: 5,
+      };
+
+      buildList();
+      console.log(arr2);
+    }
+
+    function buildList() {
+      var cont = $("#result");
+
+      var data = pagination(state.querySet, state.page, state.rows);
+      var myList = data.querySet;
+
+      for (var i = 1 in myList) {
+        //Keep in mind we are using "Template Litterals to create rows"
+        var row = `<div class="book">
+            <img src=${myList[i].img}></img>
+            <div><h5><b>Book Title:</b> ${myList[i].Title}</h5>
+            <p><b>Author:</b> ${myList[i].Author}</p>
+            <p><b>Subject:</b> ${myList[i].Subject}</p>
+            <p><b>Date:</b> ${myList[i].Date}</p></div>
+
+
+            </div>`;
+
+        cont.append(row);
+      }
+
+      pageButtons(data.pages);
+    }
+    let mybutton = document.getElementById("myBtn");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function () {
+      scrollFunction();
+    };
+
+    function scrollFunction() {
+      if (
+        document.body.scrollTop > 20 ||
+        document.documentElement.scrollTop > 20
+      ) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+
+    // When the user clicks on the button, scroll to the top of the document
+    function topFunction() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  </script>
+</html>
